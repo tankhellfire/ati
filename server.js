@@ -1,4 +1,3 @@
-let lib = require("/app/lib/lib.js");
-console.log(lib)
-
-console.log(lib("/app/lib/example.js"))
+const WebSocket = require('ws');
+const express = require('express');
+const fs = require("fs");
