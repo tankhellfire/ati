@@ -5,10 +5,10 @@ const fs = require("fs");
 const app = express();
 
 app.get('/', (req, res) => {
-  res.sendFile('/app/index.html');
+  res.setHeader("Access-Control-Allow-Origin", "*").sendFile('/app/index.html');
 });
 app.get('/*', (req, res) => {
-  res.sendFile('/app'+req.url)
+  res.setHeader("Access-Control-Allow-Origin", "*").sendFile('/app'+req.url)
 });
 
 const server = app.listen(3000, () => {
