@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <style>
+      @keyframes rotateSineWave {
+        0% {
+          transform: translate(-50%, -50%) rotate(-15deg);
+        }
+        50% {
+          transform: translate(-50%, -50%) rotate(15deg);
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(-15deg);
+        }
+      }
+    </style>
+  </head>
+  <body
+    style="
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: #000;
+      color: #fff;
+      font-family: Consolas, monospace;
+    "
+    class="vsc-initialized"
+  >
+    <cliper
+      style="overflow: hidden; height: 100vh; width: 100vw; position: absolute"
+    >
+      <h1
+        style="
+          position: absolute;
+          top: 50vh;
+          left: 50vw;
+          font-size: 10vmin;
+          animation: rotateSineWave 2s infinite
+          cubic-bezier(0.68, -0.55, 0.27, 1.55);
+          transform-origin: center;
+        "
+      >
+        ¯\_(ツ)_/¯
+      </h1>
+      <div
+        style="
+          bottom: 0;
+          left: 50vw;
+          transform: translate(-50%);
+          position: absolute;
+        "
+      >
+        (url not found.)
+      </div>
+    </cliper>
+  </body>
+</html>
