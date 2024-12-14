@@ -11,6 +11,7 @@ app.get('/', (req, res) => {
 );
 
 app.get("/*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*")
   function readDir(requestedPath, dirUrl) {
     fs.readdir(requestedPath, (err, files) => {
       if (err) {
