@@ -13,7 +13,8 @@ app.get("/*", (req, res) => {
   function readDir(requestedPath){
               fs.readdir(requestedPath, (err, files) => {
             if (err) {
-              return res.status(500).send("Error reading directory", err);
+              res.status(500).send(`Error reading directory"${err}"`);
+              return
             }
 
             // Return the list of files
@@ -25,13 +26,14 @@ app.get("/*", (req, res) => {
       background-color: #000;
       color: #fff;
       font-family: Consolas, monospace;
-    ">${files.map((file) =>`<a href="${path.join(req.path, file)}">${file}</a>`).join("<br>")}`);
+    ">${files.map((file) =>`<a href="${req.path}">${file}</a>`).join("<br>")}`);
           });
   }
-  let path=req.path.split('/')
-  if(path.pop()==="index"){
-    console.log(path.join(__dirname,path))
-    return readDir(path.join(__dirname,path))
+  
+  
+  let dirPath=req.path.split('/')
+  if(dirPath.pop()==="index"){
+    return readDir(path.join(__dirname,...dirPath))
   }
   
   const requestedPath = path.join(__dirname, req.path);
@@ -39,7 +41,8 @@ app.get("/*", (req, res) => {
   fs.stat(requestedPath, (err, stats) => {
     if (err) {
       //not a path
-      return res.status(404).sendFile(path.join(__dirname, "idk.html"));
+      res.status(404).sendFile(path.join(__dirname, "idk.html"));
+      return
     }
 
     if (stats.isDirectory()) {
