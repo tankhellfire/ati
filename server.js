@@ -28,7 +28,7 @@ app.get("/*", (req, res) => {
         font-family: Consolas, monospace;
        ">${
         files.map( (file) => `<a href="${dirUrl + '/' + file
-       }">${file}</a>`).join("<br>")}`);
+       }">${file}</a>`).join("<br>")}<br><br><a href="..">..</a>`);
     }
     );
   }
