@@ -5,7 +5,6 @@
   const fs = require("fs");
   
   const lib=require("/app/lib/lib.js")
-  console.log(await lib('test.js'))
   
   console.log(await(lib('spaceGame7/index.js')))
 
