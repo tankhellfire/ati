@@ -5,9 +5,11 @@
   const fs = require("fs");
   global.fetch=require('node-fetch')
   
-  const lib=await Object.getPrototypeOf(async()=>{}).constructor((await (await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text())+';return exports')()
+  // const lib=await Object.getPrototypeOf(async()=>{}).constructor('const exports={};'+(await (await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text())+';return exports')()
   
-  // const lib=require("/app/lib/lib.js")
+  const lib=require("/app/lib/lib.js")
+  
+  console.log(lib)
   
   console.log(await(lib('spaceGame7/index.js')))
 
