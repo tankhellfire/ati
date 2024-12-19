@@ -5,7 +5,7 @@
   const fs = require("fs");
   const fetch=global.fetch=require('node-fetch')
   
-  const lib=await Object.getPrototypeOf(async()=>{}).constructor('let exports={};'+await((await(fetch('https://tankhellfire.glitch.me/lib/lib.js'))).text())+';\nreturn exports')()
+  const lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await((await(fetch('https://tankhellfire.glitch.me/lib/lib.js'))).text())+';\nreturn exports')({})
 
   
   console.log(lib)
