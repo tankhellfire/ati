@@ -3,11 +3,10 @@
   const express = require('express');
   const path = require("path");
   const fs = require("fs");
-  global.fetch=require('node-fetch')
+  const fetch=global.fetch=require('node-fetch')
   
-  // const lib=await Object.getPrototypeOf(async()=>{}).constructor('const exports={};'+(await (await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text())+';return exports')()
-  
-  const lib=require("/app/lib/lib.js")
+  const lib=await Object.getPrototypeOf(async()=>{}).constructor('let exports={};'+await((await(fetch('https://tankhellfire.glitch.me/lib/lib.js'))).text())+';\nreturn exports')()
+
   
   console.log(lib)
   
