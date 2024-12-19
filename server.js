@@ -3,8 +3,11 @@
   const express = require('express');
   const path = require("path");
   const fs = require("fs");
+  global.fetch=require('node-fetch')
   
-  const lib=require("/app/lib/lib.js")
+  const lib=await Object.getPrototypeOf(async()=>{}).constructor(await((await(fetch('https://tankhellfire.glitch.me/lib/lib.js'))).text())+';return exports')()
+  
+  // const lib=require("/app/lib/lib.js")
   
   console.log(await(lib('spaceGame7/index.js')))
 
