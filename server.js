@@ -91,10 +91,10 @@
   
   const wss = new WebSocket.Server({ server });
   let id=0
-  wss.on('connection',(ws)=>{
-    console.log(ws)
+  wss.on('connection',(ws,req)=>{
+    //console.log(ws,req)
     ws.id = id++;
-    console.log('A new client connected!',ws.id);
+    console.log('A new client connected!',ws.id,'@',req.url);
 
     let info
     ws.on('message',(message)=>{
@@ -113,10 +113,10 @@
     });
     
     ws.onerror=(err)=>{
-      console.log(err.code,err.info)
+      console.log(err)
     }
-    ws.onclose=(msg)=>{
-      console.log(msg.code,msg.info)
+    ws.onclose=(err)=>{
+      console.log(err)
     }
     
     ws.send('connected');
