@@ -84,4 +84,41 @@
     console.log(`up`);
   }
   )
+  
+  
+  
+  
+  
+  const wss = new WebSocket.Server({ server });
+  let id=0
+  wss.on('connection',(ws)=>{
+    console.log(ws)
+    ws.id = id++;
+    console.log('A new client connected!',ws.id);
+
+    let info
+    ws.on('message',(message)=>{
+      if(info===undefined){
+        info=1
+      }
+      console.log(`Received:'${message}' from ${ws.id}`);
+
+      
+      wss.clients.forEach((client)=>{
+        if (client.readyState === WebSocket.OPEN && client.id != ws.id) {
+          client.send(message);
+        }
+      });
+      
+    });
+    
+    ws.onerror=(err)=>{
+      console.log(err.code,err.info)
+    }
+    ws.onclose=(msg)=>{
+      console.log(msg.code,msg.info)
+    }
+    
+    ws.send('connected');
+  });
 })()
