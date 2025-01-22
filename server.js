@@ -3,21 +3,20 @@
   const express = require('express');
   const path = require("path");
   const fs = require("fs");
-  const fetch=global.fetch=require('node-fetch')
+  global.fetch=require('node-fetch')
   
-  const lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await((await(fetch('https://tankhellfire.glitch.me/lib/lib.js'))).text())+';\nreturn exports')({})
+  const lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await(await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text()+';\nreturn exports')({})
 
   
   console.log(lib)
   
-  console.log(await(lib('spaceGame7/index.js')))
+  console.log(await lib('spaceGame7/index.js'))
 
   const app = express();
 
   app.get('/', (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*").sendFile('/app/index.html');
-  }
-  );
+  });
   
   app.get("/game", (req, res) => {
     
