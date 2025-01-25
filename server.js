@@ -20,6 +20,7 @@ app.get("/restart",(req,res)=>{
 })
 
 app.post("/interactions",(req,res)=>{
+  console.log('/interactions',req.body.type)
   // console.log('path:',req.path);
   // console.log('Headers:',Object.keys(req.headers));
   // console.log('Body:',req.body);
@@ -33,8 +34,7 @@ app.post("/interactions",(req,res)=>{
     console.error('Signature verification failed');
     return res.status(401).send('Invalid signature');
   }
-
-  if(req.body.type===1)return res.json({type:1});
+  if(req.body.type===1){return res.json({type:1})};
   if(req.body.type===2)return handelCommand(req,res,req.body.data.name)
     
   console.log('unknown post:',req.body.type)
@@ -92,6 +92,7 @@ ws.onopen=e=>{
 
 ws.on('message',async msg=>{
   let req=JSON.parse(msg)
+  console.log('/ws',req)
   
   if(req.t==='MESSAGE_CREATE'){
     await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
@@ -105,6 +106,8 @@ ws.on('message',async msg=>{
   
   console.log('unknown ws:',req.t)
 });
+ws.on('close',console.warn);
+ws.on('error',console.warn);
 
 
 function verifySignature(signature, timestamp, body) {
