@@ -29,9 +29,9 @@ app.post("/interactions",(req,res)=>{
   }
 
   if(req.body.type===1){
-    console.log('pong')
     return res.json({type:1});
   }
+  console.log('unknown:',req.body.type)
 });  
 
 app.post("/*",(req,res)=>{
@@ -68,19 +68,18 @@ ws.onopen=e=>{
       }
     }
   }));
-  
-  ws.on('message',async msg=>{
-    let req=JSON.parse(msg)
-    //console.log(;
-    if(req.t==='MESSAGE_CREATE'){
-      await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
-      await sleep(500)
-      await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
-      return
-    }
-    console.log('unknown:',req.t)
-  });
 }
+
+ws.on('message',async msg=>{
+  let req=JSON.parse(msg)
+  if(req.t==='MESSAGE_CREATE'){
+    await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
+    await sleep(500)
+    await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
+    return
+  }
+  console.log('unknown:',req.t)
+});
 
 
 function verifySignature(signature, timestamp, body) {
