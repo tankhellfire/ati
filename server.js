@@ -66,14 +66,12 @@ ws.onopen=e=>{
       return
     }
     console.log('unknown:',req.t)
-    
-    
   });
 }
 
 
 async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}/@me`,{
+  const response=await fetch(`https://discord.com/api/v9/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
