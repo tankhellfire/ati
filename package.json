@@ -2,9 +2,9 @@
   "name": "kana",
   "version": "0.7.0",
   "description": "kana-counting-discord-bot",
-  "main": "startmanager.js",
+  "main": ".js",
   "scripts": {
-    "start": "node startmanager.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "fs": "^0.0.2",

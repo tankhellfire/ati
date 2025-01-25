@@ -1,4 +1,3 @@
-
 const path=require("path");
 const fs=require('fs')
 
@@ -9,17 +8,11 @@ global.fetch = require('node-fetch');
 const nacl=require('tweetnacl')
 
 
-
 const disV=10
 const app=express()
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
-app.get('/refresh',(e,res)=>{
-  res.send('')
-})
-
 
 app.post("/interactions",(req,res)=>{
   console.log('path:',req.path);
