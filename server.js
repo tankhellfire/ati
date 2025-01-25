@@ -1,7 +1,12 @@
+const path=require("path");
+const fs=require('fs');
 const express=require('express');
 const WebSocket=require('ws');
 const nacl=require('tweetnacl')
 global.fetch = require('node-fetch');
+
+path.join(__dirname, 'server.json')
+console.log(fs)
 
 const app=express()
 
