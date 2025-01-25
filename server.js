@@ -14,6 +14,11 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+app.get("/restart",(req,res)=>{
+  res.send('restarting')
+  process.exit()
+})
+
 app.post("/interactions",(req,res)=>{
   console.log('path:',req.path);
   console.log('Headers:',Object.keys(req.headers));
@@ -32,8 +37,18 @@ app.post("/interactions",(req,res)=>{
   if(req.body.type===1){
     return res.json({type:1});
   }
-  if(req.body.type===2){
-    return console.log('unknown command:',req.body.type)
+  if(req.body.type===2){//node server.js
+    
+    if(req.body.type==="ping"){
+      return res.json({
+        type: 4, // Acknowledge the command and send a response
+        data: {
+          content: 'Hello! This is a response to your command!',
+        },
+      });
+    }
+    
+    return console.log('unknown command:',req.body.data.name)
   }
   console.log('unknown post:',req.body.type)
 });  
