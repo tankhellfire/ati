@@ -10,7 +10,7 @@
     "discord.js": "^14.17.3"
   },
   "engines": {
-    "node": "16.x"
+    "node": ">=18.0.0"
   },
   "license": "MIT"
 }
