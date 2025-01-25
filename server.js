@@ -16,6 +16,11 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+app.get('/refresh',(e,res)=>{
+  res.send('')
+})
+
+
 app.post("/interactions",(req,res)=>{
   console.log('path:',req.path);
   console.log('Headers:',Object.keys(req.headers));
@@ -44,6 +49,9 @@ app.post("/*",(req,res)=>{
 });  
 
 const server=app.listen(3000,e=>console.log(`up`));
+
+
+
 
 registerCommand({
   name: 'ping',
