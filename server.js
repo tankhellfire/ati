@@ -41,14 +41,13 @@ const server=app.listen(3000,e=>console.log(`up`));
 
 const ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
 
-ws.on('open', function open() {
+ws.onopen=e=>{
   console.log('Connected to Discord Gateway');
-  
-  // Identify the bot by sending the Identify payload
-  const identifyPayload = {
+
+  ws.send(JSON.stringify({
     op: 2, // Identify opcode
     d: {
-      token: BOT_TOKEN,
+      token: process.env.DISCORD_BOT_TOKEN,
       intents: 513, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
       properties: {
         $os: 'linux',
@@ -56,10 +55,12 @@ ws.on('open', function open() {
         $device: 'discord.js'
       }
     }
-  };
-
-  ws.send(JSON.stringify(identifyPayload));
-});
+  }));
+  
+  ws.on('message',msg=>{
+    console.log(JSON.parse(msg));
+  });
+}
 
 
 
