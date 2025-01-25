@@ -1,5 +1,7 @@
 const express=require('express');
-const nacl = require('tweetnacl')
+const WebSocket=require('ws');
+const nacl=require('tweetnacl')
+global.fetch = require('node-fetch');
 
 const app=express()
 
@@ -34,8 +36,30 @@ app.post("/*",(req,res)=>{
   console.log('Body:',req.body);
 });  
 
-
 const server=app.listen(3000,e=>console.log(`up`));
+
+
+const ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
+
+ws.on('open', function open() {
+  console.log('Connected to Discord Gateway');
+  
+  // Identify the bot by sending the Identify payload
+  const identifyPayload = {
+    op: 2, // Identify opcode
+    d: {
+      token: BOT_TOKEN,
+      intents: 513, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
+      properties: {
+        $os: 'linux',
+        $browser: 'chrome',
+        $device: 'discord.js'
+      }
+    }
+  };
+
+  ws.send(JSON.stringify(identifyPayload));
+});
 
 
 
