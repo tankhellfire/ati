@@ -92,7 +92,16 @@ ws.onopen=e=>{
 
 ws.on('message',async msg=>{
   let req=JSON.parse(msg)
-  console.log('/ws',req)
+  console.log('/ws',req.t,req.op)
+  
+  if(req.op===10){
+    console.log(`hello msg set heartbeat to ${req.d.heartbeat_interval/1000}s`)
+    setInterval(() => {
+      ws.send(JSON.stringify({ op: 1, d: null })); // Heartbeat (op 1)
+      console.log('heartbeat sent');
+    },req.d.heartbeat_interval);
+    return
+  }
   
   if(req.t==='MESSAGE_CREATE'){
     await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
