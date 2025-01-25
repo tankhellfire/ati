@@ -5,8 +5,6 @@ const WebSocket=require('ws');
 const nacl=require('tweetnacl')
 global.fetch = require('node-fetch');
 
-path.join(__dirname, 'server.json')
-console.log(fs)
 
 const app=express()
 
@@ -43,6 +41,8 @@ app.post("/*",(req,res)=>{
 
 const server=app.listen(3000,e=>console.log(`up`));
 
+//path.join(__dirname, 'server.json')
+//fs.readFileSync()
 
 const ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
 
@@ -62,12 +62,12 @@ ws.onopen=e=>{
     }
   }));
   
-  ws.on('message',msg=>{
+  ws.on('message',async msg=>{
     let req=JSON.parse(msg)
     //console.log(;
     if(req.t==='MESSAGE_CREATE'){
-      console.log(req)
-      reactToMsg(req.d.channel_id,req.d.id,'😄')
+      await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
+      await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
       return
     }
     console.log('unknown:',req.t)
@@ -76,7 +76,7 @@ ws.onopen=e=>{
 
 
 async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v9/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
+  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
@@ -90,12 +90,14 @@ async function reactToMsg(channelId,messageId,emoji){
     
 }
 
-
-
 function verifySignature(signature, timestamp, body) {
   const data = timestamp + body;
   const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
   const signedData = Buffer.from(signature, 'hex');
 
   return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
+}
+
+function sleep(ms){
+  return new Promis
 }
