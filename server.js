@@ -106,8 +106,8 @@ ws.on('message',async msg=>{
   
   console.log('unknown ws:',req.t)
 });
-ws.on('close',console.warn);
-ws.on('error',console.warn);
+ws.on('close',async(e)=>{console.warn('ws close',e)});
+ws.on('error',async(e)=>{console.warn('ws error',e)});
 
 
 function verifySignature(signature, timestamp, body) {
@@ -128,7 +128,7 @@ async function reactToMsg(channelId,messageId,emoji){
   })
 
   if(!response.ok){
-    console.error(response)
+    console.error('reactToMsg',response)
   }
 }
 
