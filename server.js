@@ -5,6 +5,7 @@ const WebSocket=require('ws');
 const nacl=require('tweetnacl')
 global.fetch = require('node-fetch');
 
+const discordApiV=10
 
 const app=express()
 
@@ -67,6 +68,7 @@ ws.onopen=e=>{
     //console.log(;
     if(req.t==='MESSAGE_CREATE'){
       await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
+      await sleep(500)
       await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
       return
     }
@@ -75,8 +77,17 @@ ws.onopen=e=>{
 }
 
 
+
+function verifySignature(signature, timestamp, body) {
+  const data = timestamp + body;
+  const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
+  const signedData = Buffer.from(signature, 'hex');
+
+  return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
+}
+
 async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
+  const response=await fetch(`https://discord.com/api/v$/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
@@ -90,14 +101,27 @@ async function reactToMsg(channelId,messageId,emoji){
     
 }
 
-function verifySignature(signature, timestamp, body) {
-  const data = timestamp + body;
-  const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
-  const signedData = Buffer.from(signature, 'hex');
+async function registerCommands(command) {
 
-  return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
+  const endpoint = `${DISCORD_API_BASE}/applications/${CLIENT_ID}/commands`;
+
+  const response = await fetch(endpoint, {
+    method: 'PUT', // Overwrites existing commands
+    headers: {
+      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(commands),
+  });
+
+  if (response.ok) {
+    console.log('Commands registered successfully!');
+  } else {
+    const errorText = await response.text();
+    console.error('Failed to register commands:', errorText);
+  }
 }
 
 function sleep(ms){
-  return new Promis
+  return new Promise(e=>setTimeout(e,ms))
 }
