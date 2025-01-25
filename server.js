@@ -34,22 +34,9 @@ app.post("/interactions",(req,res)=>{
     return res.status(401).send('Invalid signature');
   }
 
-  if(req.body.type===1){
-    return res.json({type:1});
-  }
-  if(req.body.type===2){//node server.js
+  if(req.body.type===1)return res.json({type:1});
+  if(req.body.type===2)return handelCommand(req,res,req.body.data.name)
     
-    if(req.body.type==="ping"){
-      return res.json({
-        type: 4, // Acknowledge the command and send a response
-        data: {
-          content: 'Hello! This is a response to your command!',
-        },
-      });
-    }
-    
-    return console.log('unknown command:',req.body.data.name)
-  }
   console.log('unknown post:',req.body.type)
 });  
 
@@ -62,7 +49,18 @@ app.post("/*",(req,res)=>{
 const server=app.listen(3000,e=>console.log(`up`));
 
 
+function handelCommand(req,res,name){
+  if(name==="ping"){
+    return res.json({
+      type: 4,
+      data: {
+        content: 'Pong!... hopefuly',
+      },
+    });
+  }
 
+  return console.log('unknown command:',name)
+}
 
 registerCommand({
   name: 'ping',
