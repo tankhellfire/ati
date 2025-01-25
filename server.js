@@ -62,7 +62,7 @@ ws.onopen=e=>{
     //console.log(;
     if(req.t==='MESSAGE_CREATE'){
       console.log(req)
-      reactToMsg(req.d.channel_id,req.d.id,'00000000:1332195782748667966')
+      reactToMsg(req.d.channel_id,req.d.id,'😄')
       return
     }
     console.log('unknown:',req.t)
@@ -73,7 +73,7 @@ ws.onopen=e=>{
 
 
 async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}`,{
+  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
