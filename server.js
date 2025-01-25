@@ -5,7 +5,7 @@ const WebSocket=require('ws');
 const nacl=require('tweetnacl')
 global.fetch = require('node-fetch');
 
-const discordApiV=10
+const disV=10
 
 const app=express()
 
@@ -42,10 +42,16 @@ app.post("/*",(req,res)=>{
 
 const server=app.listen(3000,e=>console.log(`up`));
 
+registerCommand({
+  name: 'ping',
+  description: 'Replies with Pong!... hopefuly',
+  type: 1,
+})
+
 //path.join(__dirname, 'server.json')
 //fs.readFileSync()
 
-const ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
+const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
 
 ws.onopen=e=>{
   console.log('Connected to Discord Gateway');
@@ -77,7 +83,6 @@ ws.onopen=e=>{
 }
 
 
-
 function verifySignature(signature, timestamp, body) {
   const data = timestamp + body;
   const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
@@ -87,7 +92,7 @@ function verifySignature(signature, timestamp, body) {
 }
 
 async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v$/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
+  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
@@ -101,17 +106,17 @@ async function reactToMsg(channelId,messageId,emoji){
     
 }
 
-async function registerCommands(command) {
+async function registerCommand(command) {
 
-  const endpoint = `${DISCORD_API_BASE}/applications/${CLIENT_ID}/commands`;
+  const endpoint = `https://discord.com/api/v${disV}/applications/${process.env.id}/commands`;
 
   const response = await fetch(endpoint, {
     method: 'PUT', // Overwrites existing commands
     headers: {
-      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(commands),
+    body: JSON.stringify([command]),
   });
 
   if (response.ok) {
