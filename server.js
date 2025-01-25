@@ -62,36 +62,29 @@ ws.onopen=e=>{
     //console.log(;
     if(req.t==='MESSAGE_CREATE'){
       console.log(req)
+      reactToMsg(req.d.channel_id,req.d.id,'🇪')
       return
     }
     console.log('unknown:',req.t)
-    //reactToMsg()
+    
+    
   });
 }
 
 
 async function reactToMsg(channelId,messageId,emoji){
-
-  try {
-    // React to the message with the provided emoji
-    const response = await fetch(
-      `https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    
-    if (!response.ok) {
-      throw new Error('Failed to add reaction');
+  const response=await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}`,{
+    method:'PUT',
+    headers:{
+      'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type':'application/json'
     }
-    
-  } catch (error) {
-    console.error('Error reacting to message:', error);
+  })
+
+  if(!response.ok){
+    console.error(response)
   }
+    
 }
 
 
