@@ -20,9 +20,9 @@ app.get("/restart",(req,res)=>{
 })
 
 app.post("/interactions",(req,res)=>{
-  console.log('path:',req.path);
-  console.log('Headers:',Object.keys(req.headers));
-  console.log('Body:',req.body);
+  // console.log('path:',req.path);
+  // console.log('Headers:',Object.keys(req.headers));
+  // console.log('Body:',req.body);
   
 
   if(!verifySignature(
@@ -92,12 +92,17 @@ ws.onopen=e=>{
 
 ws.on('message',async msg=>{
   let req=JSON.parse(msg)
+  
   if(req.t==='MESSAGE_CREATE'){
     await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
     await sleep(500)
     await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
     return
   }
+  if(req.t==='PRESENCE_UPDATE'){
+    console.log('PRESENCE_UPDATE',msg)
+  }
+  
   console.log('unknown ws:',req.t)
 });
 
