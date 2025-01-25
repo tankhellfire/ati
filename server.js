@@ -11,12 +11,15 @@
   
   global.fetch=require('node-fetch')
 
-  app.post("/*",async(req,res)=>{
+  app.post("/*",(req,res)=>{
     console.log('path:',req.path);
-    console.log('Headers:',req.headers);
+    console.log('Headers:',Object.keys(req.headers));
     console.log('Body:',req.body);
     
-    res.send({ message: 'Received' });
+    if (req.body.type===1) {
+      console.log('pong')
+      return res.json({type:1}); // Respond to ping with type 1
+    }
   });  
   
   
