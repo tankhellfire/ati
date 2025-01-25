@@ -1,7 +1,7 @@
 {
-  "name": "spacegame",
+  "name": "kana",
   "version": "0.7.0",
-  "description": "spacegame",
+  "description": "kana-counting-discord-bot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -20,9 +20,5 @@
   "engines": {
     "node": "14.x"
   },
-  "license": "MIT",
-  "keywords": [
-    "spacegame",
-    "space game"
-  ]
+  "license": "MIT"
 }
