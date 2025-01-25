@@ -58,11 +58,41 @@ ws.onopen=e=>{
   }));
   
   ws.on('message',msg=>{
-    console.log(JSON.parse(msg));
+    let req=JSON.parse(msg)
+    //console.log(;
+    if(req.t==='MESSAGE_CREATE'){
+      console.log(req)
+      return
+    }
+    console.log('unknown:',req.t)
+    //reactToMsg()
   });
 }
 
 
+async function reactToMsg(channelId,messageId,emoji){
+
+  try {
+    // React to the message with the provided emoji
+    const response = await fetch(
+      `https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/react/${encodeURIComponent(emoji)}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to add reaction');
+    }
+    
+  } catch (error) {
+    console.error('Error reacting to message:', error);
+  }
+}
 
 
 
