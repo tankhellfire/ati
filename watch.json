@@ -1,5 +1,7 @@
 {
   "ignore": [
-    "server.js"
+    "server.js",
+    "server.json",
+    ".env"
   ]
 }

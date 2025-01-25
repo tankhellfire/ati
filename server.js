@@ -1,35 +1,20 @@
-const {exec}=require('child_process');
 
 const path=require("path");
 const fs=require('fs')
-;
+
 const express=require('express');
 const WebSocket=require('ws');
 global.fetch = require('node-fetch');
 
 const nacl=require('tweetnacl')
 
-const disV=10
 
+
+const disV=10
 const app=express()
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
-app.get("/refresh",(req,res)=>{
-  res.send('m')
-  exec('refresh', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing refresh: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  });
-})
 
 app.post("/interactions",(req,res)=>{
   console.log('path:',req.path);
