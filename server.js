@@ -1,5 +1,5 @@
 const express=require('express');
-const crypto=require('crypto');
+const nacl = require('tweetnacl')
 
 const app=express()
 
@@ -39,11 +39,6 @@ function verifySignature(signature, timestamp, body) {
   const data = timestamp + body;
   const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
   const signedData = Buffer.from(signature, 'hex');
-  const hmac = crypto.createHmac('sha256', key);
-  hmac.update(data);
-  const expectedSignature = hmac.digest();
-  
-  console.log
 
-  return signedData.equals(expectedSignature);
+  return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
 }
