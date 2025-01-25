@@ -1,29 +1,44 @@
-const {Client,GatewayIntentBits} = require('discord.js');
-const client = new Client({ 
-  intents: [
-    GatewayIntentBits.Guilds, 
-    GatewayIntentBits.GuildMessages, 
-    GatewayIntentBits.MessageContent // This is needed for accessing message content in newer versions of Discord.js
-  ] 
-});
+const express=require('express');
+const nacl = require('tweetnacl')
 
-client.login(process.env.DISCORD_BOT_TOKEN); // Make sure to set your bot token in the environment variable
+const app=express()
 
-// Event listener for when the bot is ready
-client.once('ready', () => {
-  console.log('Bot is online and ready!');
-});
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
-// Event listener for when a message is sent
-client.on('messageCreate', (message) => {
-  // If the message is from the bot itself, ignore it
-  if (message.author.bot) return;
 
-  // Log the message content to the console
-  console.log(`Message from ${message.author.tag}: ${message.content}`);
+app.post("/interactions",(req,res)=>{
+  console.log('path:',req.path);
+  console.log('Headers:',Object.keys(req.headers));
+  console.log('Body:',req.body);
+  
 
-  // Respond to the message
-  if (message.content.toLowerCase() === 'ping') {
-    message.channel.send('Pong!');
+  if(!verifySignature(
+    req.headers['x-signature-ed25519'],
+    req.headers['x-signature-timestamp'],
+    JSON.stringify(req.body)
+  )){
+    console.error('Signature verification failed');
+    return res.status(401).send('Invalid signature');
   }
-});
+
+  if(req.body.type===1){
+    console.log('pong')
+    return res.json({type:1}); // Respond to ping with type 1
+  }
+});  
+
+
+const server=app.listen(3000,e=>console.log(`up`));
+
+
+
+
+
+function verifySignature(signature, timestamp, body) {
+  const data = timestamp + body;
+  const key = Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex');
+  const signedData = Buffer.from(signature, 'hex');
+
+  return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
+}
