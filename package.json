@@ -2,7 +2,7 @@
   "name": "kana",
   "version": "0.7.0",
   "description": "kana-counting-discord-bot",
-  "main": ".js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },

@@ -32,7 +32,10 @@ app.post("/interactions",(req,res)=>{
   if(req.body.type===1){
     return res.json({type:1});
   }
-  console.log('unknown:',req.body.type)
+  if(req.body.type===2){
+    return console.log('unknown command:',req.body.type)
+  }
+  console.log('unknown post:',req.body.type)
 });  
 
 app.post("/*",(req,res)=>{
@@ -82,7 +85,7 @@ ws.on('message',async msg=>{
     await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
     return
   }
-  console.log('unknown:',req.t)
+  console.log('unknown ws:',req.t)
 });
 
 
@@ -106,7 +109,6 @@ async function reactToMsg(channelId,messageId,emoji){
   if(!response.ok){
     console.error(response)
   }
-    
 }
 
 async function registerCommand(command) {
