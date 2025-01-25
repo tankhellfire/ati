@@ -48,7 +48,7 @@ ws.onopen=e=>{
     op: 2, // Identify opcode
     d: {
       token: process.env.DISCORD_BOT_TOKEN,
-      intents: 513, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
+      intents: 53608447, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
       properties: {
         $os: 'linux',
         $browser: 'chrome',
@@ -62,7 +62,7 @@ ws.onopen=e=>{
     //console.log(;
     if(req.t==='MESSAGE_CREATE'){
       console.log(req)
-      reactToMsg(req.d.channel_id,req.d.id,'🇪')
+      reactToMsg(req.d.channel_id,req.d.id,'00000000:1332195782748667966')
       return
     }
     console.log('unknown:',req.t)
