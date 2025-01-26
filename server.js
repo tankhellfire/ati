@@ -1,6 +1,10 @@
 const path=require("path");
 const fs=require('fs')
 
+
+fs.readFileSync(path.join(__dirname, 'server.json'),'utf8')
+
+
 const express=require('express');
 const WebSocket=require('ws');
 global.fetch = require('node-fetch');
@@ -40,12 +44,6 @@ app.post("/interactions",(req,res)=>{
   console.log('unknown post:',req.body.type)
 });  
 
-app.post("/*",(req,res)=>{
-  console.log('path:',req.path);
-  console.log('Headers:',Object.keys(req.headers));
-  console.log('Body:',req.body);
-});  
-
 const server=app.listen(3000,e=>console.log(`up`));
 
 
@@ -55,6 +53,15 @@ function handelCommand(req,res,name){
       type: 4,
       data: {
         content: 'Pong!... hopefuly',
+      },
+    });
+  }
+  if(name==="setchannel"){
+    return res.json({
+      type: 4,
+      data: {
+        content: 'Pong!... hopefuly',
+        flags: 0b1000000
       },
     });
   }
@@ -76,8 +83,6 @@ registerCommands([
   }
 ])
 
-//path.join(__dirname, 'server.json')
-//fs.readFileSync()
 
 const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
 
