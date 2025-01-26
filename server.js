@@ -71,6 +71,7 @@ registerCommands([
   {
     name: 'setchannel',
     description: 'sets the current channel as the channel for 唱える',
+    default_member_permissions: 0b1000,
     type: 1,
   }
 ])
