@@ -3,11 +3,25 @@ const fs=require('fs')
 
 const savePath=path.join(__dirname, 'save.json')
 
-let save=
+let res=fs.readFileSync(savePath,'utf8')
+let save
+try{
+  save=JSON.parse(res)
+}catch(err){
+  save={}
+  console.error(err)
+  console.log(res)
+}
 console.log(save)
+updateSave()
 
-async function updateSave(){
-  return fs.writeFile(savePath, JSON.stringify(save),'utf8',e=>e)
+function updateSave(){
+  return new Promise(res=>{
+    fs.writeFile(savePath, JSON.stringify(save),err=>{
+      if(err){console.error('updateSave',err)}else{sa}
+      res()
+    })
+  })
 }
 
 
