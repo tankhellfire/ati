@@ -3,6 +3,7 @@ const fs=require('fs')
 
 const savePath=path.join(__dirname, 'save.json')
 
+
 let res=fs.readFileSync(savePath,'utf8')
 let save
 try{
@@ -12,13 +13,12 @@ try{
   console.error(err)
   console.log(res)
 }
-console.log(save)
 updateSave()
 
 function updateSave(){
   return new Promise(res=>{
     fs.writeFile(savePath, JSON.stringify(save),err=>{
-      if(err){console.error('updateSave',err)}else{sa}
+      if(err){console.error('updateSave',err)}else{console.log('updated save')}
       res()
     })
   })
@@ -84,12 +84,21 @@ function handelCommand(req,res,name){
     });
   }
   if(name==="setchannel"){
-    console.log(req.body.guild_id,req.body.channel_id)
+    console.log(req.body.guild_id,req.body.channel_id);
     (save[req.body.guild_id]??(save[req.body.guild_id]={})).channel=req.body.channel_id
     return res.json({
       type: 4,
       data: {
-        content: 'Pong!... hopefuly',
+        content: 'channel set',
+        flags: 0b1000000
+      },
+    });
+  }
+  if(name==="getchannel"){
+    return res.json({
+      type: 4,
+      data: {
+        content: `channel:<#${save[req.body.guild_id]?.channel}>`,
         flags: 0b1000000
       },
     });
@@ -107,6 +116,11 @@ registerCommands([
     name: 'setchannel',
     description: 'sets the current channel as the channel for 唱える',
     default_member_permissions: 0b1000,
+    type: 1,
+  },
+  {
+    name: 'getchannel',
+    description: 'return the 唱える channel',
     type: 1,
   }
 ])
@@ -145,6 +159,7 @@ ws.on('message',async msg=>{
   }
   
   if(req.t==='MESSAGE_CREATE'){
+    if(req.d.author.id===process.env.id)return;
     await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
     await sleep(500)
     await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
