@@ -13,7 +13,6 @@ try{
   console.error(err)
   console.log(res)
 }
-updateSave()
 
 function updateSave(){
   return new Promise(res=>{
@@ -159,7 +158,10 @@ ws.on('message',async msg=>{
   }
   
   if(req.t==='MESSAGE_CREATE'){
-    if(req.d.author.id===process.env.id)return;
+    
+    if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
+    if(req.d.author.id==process.env.id)return;
+    
     await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
     await sleep(500)
     await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
