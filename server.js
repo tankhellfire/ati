@@ -47,8 +47,6 @@ const express=require('express');
 const WebSocket=require('ws');
 global.fetch = require('node-fetch');
 
-
-
 const nacl=require('tweetnacl')
 
 
@@ -57,6 +55,12 @@ const app=express()
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+setInterval(e=>fetch('https://spot-brook-hall.glitch.me/wake'),60000)
+app.get("/wake",async(req,res)=>{
+  console.log('wake')
+  res.send('up')
+})
 
 app.get("/restart",async(req,res)=>{
   await updateSave()
@@ -91,11 +95,6 @@ app.post("/interactions",(req,res)=>{
   console.log('unknown post:',req.body.type)
 });  
 
-setTimeout(e=>fetch('https://spot-brook-hall.glitch.me/wake'),60000)
-app.get("/wake",async(req,res)=>{
-  console.log('wake')
-  res.send('up')
-})
 const server=app.listen(3000,e=>console.log(`up`));
 
 
