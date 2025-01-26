@@ -1,8 +1,13 @@
 const path=require("path");
 const fs=require('fs')
 
+const savePath=path.join(__dirname, 'save.json')
 
-fs.readFileSync(path.join(__dirname, 'server.json'),'utf8')
+let save=fs.readFileSync(savePath,'utf8')
+
+async function updateSave(){
+  return fs.writeFile(savePath, JSON.stringify(save),'utf8',e=>e)
+}
 
 
 const express=require('express');
@@ -18,7 +23,8 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.get("/restart",(req,res)=>{
+app.get("/restart",async(req,res)=>{
+  await updateSave()
   res.send('restarting')
   process.exit()
 })
