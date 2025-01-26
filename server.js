@@ -62,11 +62,18 @@ function handelCommand(req,res,name){
   return console.log('unknown command:',name)
 }
 
-registerCommand({
-  name: 'ping',
-  description: 'Replies with Pong!... hopefuly',
-  type: 1,
-})
+registerCommands([
+  {
+    name: 'ping',
+    description: 'Replies with Pong!... hopefuly',
+    type: 1,
+  },
+  {
+    name: 'setchannel',
+    description: 'sets the current channel as the channel for 唱える',
+    type: 1,
+  }
+])
 
 //path.join(__dirname, 'server.json')
 //fs.readFileSync()
@@ -109,9 +116,6 @@ ws.on('message',async msg=>{
     await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
     return
   }
-  if(req.t==='PRESENCE_UPDATE'){
-    console.log('PRESENCE_UPDATE',msg)
-  }
   
   console.log('unknown ws:',req.t)
 });
@@ -141,7 +145,7 @@ async function reactToMsg(channelId,messageId,emoji){
   }
 }
 
-async function registerCommand(command) {
+async function registerCommands(commands) {
 
   const endpoint = `https://discord.com/api/v${disV}/applications/${process.env.id}/commands`;
 
@@ -151,7 +155,7 @@ async function registerCommand(command) {
       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify([command]),
+    body: JSON.stringify(commands),
   });
 
   if (response.ok) {
