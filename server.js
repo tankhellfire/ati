@@ -184,7 +184,8 @@ ws.on('message',async msg=>{
     let index=kana.flat().indexOf(req.d.content)
     
     if(index===-1){
-      
+      await reactToMsg(req.d.channel_id,req.d.id,'hanmaru:1332926614832545793')
+      await sleep(500)
       await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
       
     }else if(kana.flat()[index-1]==save[req.d.guild_id].last){
@@ -198,8 +199,6 @@ ws.on('message',async msg=>{
       
       (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
       await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
-      await sleep(500)
-      await reactToMsg(req.d.channel_id,req.d.id,'hanmaru:1332926614832545793')
       
     }
     return updateSave()
