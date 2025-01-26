@@ -1,7 +1,7 @@
 {
   "name": "kana",
   "version": "0.7.0",
-  "description": "kana-counting-discord-bot",
+  "description": "kana-counting-discord-bot from 25/1/2025",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
