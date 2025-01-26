@@ -185,9 +185,12 @@ ws.on('message',async msg=>{
     
     if(index===-1){
       await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
-    }else{
-      (save[req.body.guild_id]??(save[req.body.guild_id]={})).last=req.d.content
+    }else if(kana[index-1]==req.d.content){
+      (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
       await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
+    }else{
+      (save[req.d.guild_id]??(save[req.body.guild_id]={})).last=req.d.content
+      await reactToMsg(req.d.channel_id,req.d.id,'hanmaru:1332926614832545793')
     }
     return updateSave()
   }
