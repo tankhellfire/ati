@@ -3,7 +3,8 @@ const fs=require('fs')
 
 const savePath=path.join(__dirname, 'save.json')
 
-let save=fs.readFileSync(savePath,'utf8')
+let save=
+console.log(save)
 
 async function updateSave(){
   return fs.writeFile(savePath, JSON.stringify(save),'utf8',e=>e)
@@ -28,6 +29,9 @@ app.get("/restart",async(req,res)=>{
   res.send('restarting')
   process.exit()
 })
+app.get("/save",async(req,res)=>{
+  res.json(save)
+})
 
 app.post("/interactions",(req,res)=>{
   console.log('/interactions',req.body.type)
@@ -45,7 +49,10 @@ app.post("/interactions",(req,res)=>{
     return res.status(401).send('Invalid signature');
   }
   if(req.body.type===1){return res.json({type:1})};
-  if(req.body.type===2)return handelCommand(req,res,req.body.data.name).catch(err=>{console.error(err);res.json({type:4,data:{content:`<@1133347125594431499> something went wrong ${JSON.stringify(err)}`}})})
+  if(req.body.type===2){
+    try{return handelCommand(req,res,req.body.data.name)}
+    catch(err){console.error('command error:',err);return res.json({type:4,data:{content:`<@1133347125594431499> something went wrong ${JSON.stringify(err)}`}})}
+  }
     
   console.log('unknown post:',req.body.type)
 });  
@@ -63,6 +70,8 @@ function handelCommand(req,res,name){
     });
   }
   if(name==="setchannel"){
+    console.log(req.body.guild_id,req.body.channel_id)
+    (save[req.body.guild_id]??(save[req.body.guild_id]={})).channel=req.body.channel_id
     return res.json({
       type: 4,
       data: {
