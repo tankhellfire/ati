@@ -45,7 +45,7 @@ app.post("/interactions",(req,res)=>{
     return res.status(401).send('Invalid signature');
   }
   if(req.body.type===1){return res.json({type:1})};
-  if(req.body.type===2)return handelCommand(req,res,req.body.data.name)
+  if(req.body.type===2)return handelCommand(req,res,req.body.data.name).catch(err=>{console.error(err);res.json({type:4,data:{content:`<@1133347125594431499> something went wrong ${JSON.stringify(err)}`}})})
     
   console.log('unknown post:',req.body.type)
 });  
@@ -71,7 +71,6 @@ function handelCommand(req,res,name){
       },
     });
   }
-
   return console.log('unknown command:',name)
 }
 
