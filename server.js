@@ -180,12 +180,16 @@ ws.on('message',async msg=>{
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
     if(req.d.author.id==process.env.id)return;
-    if(kana.flat().includes(req.d.content)){
-      await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
-    }else{
+    
+    let index=kana.flat().indexOf(req.d.content)
+    
+    if(index===-1){
       await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
+    }else{
+      (save[req.body.guild_id]??(save[req.body.guild_id]={})).last=req.d.content
+      await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
     }
-    return
+    return updateSave()
   }
   
   console.log('unknown ws:',req.t)
