@@ -180,7 +180,7 @@ ws.on('message',async msg=>{
   
   if(req.t==='MESSAGE_CREATE'){
     
-    if(req.d.author.id==982875001550168064||req.d.author.id==1157852652332400720){
+    if(req.d.author.id==982875001550168064){
       await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
         method: 'DELETE',
         headers: {
@@ -189,7 +189,7 @@ ws.on('message',async msg=>{
           'Content-Type':'application/json'
         },
       });
-      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
+      return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
     }
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
