@@ -56,7 +56,7 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(async()=>console.log('from spot:',await (await fetch('https://spot-brook-hall.glitch.me/wake')).text()),20000)
+setInterval(async()=>console.log('from spot:',await (await fetch('https://glitch.com/edit/#!/spot-brook-hall.glitch.me')).text()[0]),20000)
 app.get("/wake",async(req,res)=>{
   console.log('wake')
   res.send('up')
@@ -183,6 +183,18 @@ ws.on('message',async msg=>{
   }
   
   if(req.t==='MESSAGE_CREATE'){
+    
+    if(req.d.author.id==982875001550168064){
+      await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+          'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
+          'Content-Type':'application/json'
+        },
+      });
+      return
+    }
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
     if(req.d.author.id==process.env.id)return;
