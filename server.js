@@ -56,11 +56,11 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(e=>fetch('https://spot-brook-hall.glitch.me/wake'),20000)
-  app.get("/wake",async(req,res)=>{
-    console.log('wake')
-    res.send('up')
-  })
+setInterval(async()=>console.log('from spot:',await (await fetch('https://spot-brook-hall.glitch.me/wake')).text()),20000)
+app.get("/wake",async(req,res)=>{
+  console.log('wake')
+  res.send('up')
+})
 
 app.get("/restart",async(req,res)=>{
   await updateSave()
