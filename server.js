@@ -56,11 +56,7 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(async()=>console.log('from spot:',await (await fetch('https://glitch.com/edit/#!/spot-brook-hall.glitch.me')).text()[0]),20000)
-app.get("/wake",async(req,res)=>{
-  console.log('wake')
-  res.send('up')
-})
+setInterval(async()=>console.log('got spot:',(await (await fetch('https://glitch.com/edit/#!/spot-brook-hall.glitch.me')).text())[0]),20000)
 
 app.get("/restart",async(req,res)=>{
   await updateSave()
@@ -184,7 +180,7 @@ ws.on('message',async msg=>{
   
   if(req.t==='MESSAGE_CREATE'){
     
-    if(req.d.author.id==982875001550168064){
+    if(req.d.author.id==982875001550168064||req.d.author.id==1109446509482754150){
       await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
         method: 'DELETE',
         headers: {
@@ -193,7 +189,7 @@ ws.on('message',async msg=>{
           'Content-Type':'application/json'
         },
       });
-      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> on order "of it's Tyler"`)
+      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`)
     }
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
@@ -256,7 +252,10 @@ async function sendMsg(text,channelId){//1333407548933410909
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
       'Content-Type':'application/json'
-    }
+    },
+    body: JSON.stringify({
+      text
+    }),
   })
   if(!response.ok){
     console.error('reactToMsg',response)
