@@ -189,7 +189,7 @@ ws.on('message',async msg=>{
           'Content-Type':'application/json'
         },
       });
-      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,req.d.channel_id)
+      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,1184757498067042366)
     }
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
