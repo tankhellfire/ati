@@ -193,7 +193,7 @@ ws.on('message',async msg=>{
           'Content-Type':'application/json'
         },
       });
-      return
+      return await sendMsg(`delete ${req.d.content} from <@${req.d.author.id}> on order "of it's Tyler"`)
     }
     
     if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
@@ -245,6 +245,19 @@ async function reactToMsg(channelId,messageId,emoji){
     }
   })
 
+  if(!response.ok){
+    console.error('reactToMsg',response)
+  }
+}
+
+async function sendMsg(text,channelId){//1333407548933410909
+  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages`,{
+    method:'PUT',
+    headers:{
+      'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type':'application/json'
+    }
+  })
   if(!response.ok){
     console.error('reactToMsg',response)
   }
