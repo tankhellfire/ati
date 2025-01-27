@@ -56,7 +56,7 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(e=>fetch('https://glitch.com/edit/#!/spot-brook-hall'),60000)
+setInterval(e=>fetch('https://glitch.com/edit/#!/spot-brook-hall'),40000)
 // app.get("/wake",async(req,res)=>{
 //   console.log('wake')
 //   res.send('up')
