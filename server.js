@@ -56,10 +56,10 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(async()=>console.log('\nspot','up'==await (await fetch('https://spot-brook-hall.glitch.me/wake')).text()),20000)
-app.get("/wake",(req,res)=>{
+setInterval(async()=>console.log('\nkana','up'==await (await fetch('https://spot-brook-hall.glitch.me/wake')).text()),60000)
+app.get("/wake",async(req,res)=>{
   res.setHeader("Access-Control-Allow-Origin", "*").send('up')
-}); 
+});
 
 app.get("/restart",async(req,res)=>{
   await updateSave()
