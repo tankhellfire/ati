@@ -149,82 +149,85 @@ registerCommands([
 ])
 
 
-const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
+wsConnect()
+async function wsConnect(){
+  sendMsg('kana starting','1333407548933410909')
+  const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
+  ws.onopen=e=>{
+    console.log('Connected to Discord Gateway');
 
-ws.onopen=e=>{
-  console.log('Connected to Discord Gateway');
-
-  ws.send(JSON.stringify({
-    op: 2, // Identify opcode
-    d: {
-      token: process.env.DISCORD_BOT_TOKEN,
-      intents: 53608447, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
-      properties: {
-        $os: 'linux',
-        $browser: 'chrome',
-        $device: 'discord.js'
+    ws.send(JSON.stringify({
+      op: 2, // Identify opcode
+      d: {
+        token: process.env.DISCORD_BOT_TOKEN,
+        intents: 53608447, // Intents for message events (e.g., GUILDS + GUILD_MESSAGES)
+        properties: {
+          $os: 'linux',
+          $browser: 'chrome',
+          $device: 'discord.js'
+        }
       }
-    }
-  }));
-}
+    }));
+  }
 
-ws.on('message',async msg=>{
-  let req=JSON.parse(msg)
-  console.log('\n/ws',req.t,req.op)
-  
-  if(req.op===10){
-    console.log(`hello msg set heartbeat to ${req.d.heartbeat_interval/1000}s`)
-    setInterval(() => {
-      ws.send(JSON.stringify({ op: 1, d: null })); // Heartbeat (op 1)
-      console.log('heartbeat sent');
-    },req.d.heartbeat_interval);
-    return
-  }
-  
-  if(req.t==='MESSAGE_CREATE'){
-    
-    if(req.d.author.id==982875001550168064){
-      await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-          'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
-          'Content-Type':'application/json'
-        },
-      });
-      return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
+  ws.on('message',async msg=>{
+    let req=JSON.parse(msg)
+    console.log('\n/ws',req.t,req.op)
+
+    if(req.op===10){
+      console.log(`hello msg set heartbeat to ${req.d.heartbeat_interval/1000}s`)
+      setInterval(() => {
+        ws.send(JSON.stringify({ op: 1, d: null })); // Heartbeat (op 1)
+        console.log('heartbeat sent');
+      },req.d.heartbeat_interval);
+      return
     }
-    
-    if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
-    if(req.d.author.id==process.env.id)return;
-    
-    let index=kana.flat().indexOf(req.d.content)
-    
-    if(index===-1){
-      await reactToMsg(req.d.channel_id,req.d.id,'hanmaru:1332926614832545793')
-      await sleep(500)
-      await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
-      
-    }else if(kana.flat()[index-1]==save[req.d.guild_id].last){
-      
-      (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
-      await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
-      
-    }else{
-      
-      console.log(index,kana.flat()[index-1],save[req.d.guild_id].last);
-      
-      (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
-      await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
-      
+
+    if(req.t==='MESSAGE_CREATE'){
+
+      if(req.d.author.id==982875001550168064){
+        await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+            'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
+            'Content-Type':'application/json'
+          },
+        });
+        return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
+      }
+
+      if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
+      if(req.d.author.id==process.env.id)return;
+
+      let index=kana.flat().indexOf(req.d.content)
+
+      if(index===-1){
+        await reactToMsg(req.d.channel_id,req.d.id,'hanmaru:1332926614832545793')
+        await sleep(500)
+        await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
+
+      }else if(kana.flat()[index-1]==save[req.d.guild_id].last){
+
+        (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
+        await reactToMsg(req.d.channel_id,req.d.id,'maru:1332527322909245580')
+
+      }else{
+
+        console.log(index,kana.flat()[index-1],save[req.d.guild_id].last);
+
+        (save[req.d.guild_id]??(save[req.d.guild_id]={})).last=req.d.content
+        await reactToMsg(req.d.channel_id,req.d.id,'batsu:1332527544234278995')
+
+      }
+      return updateSave()
     }
-    return updateSave()
-  }
-  
-  console.log('unknown ws:',req.t)
-});
-ws.on('close',async(e)=>{console.warn('ws close',e)});
-ws.on('error',async(e)=>{console.warn('ws error',e)});
+
+    console.log('unknown ws:',req.t)
+  });
+  ws.on('close',async(e)=>{console.warn('ws close',e);wsConnect()});
+  ws.on('error',async(e)=>{console.warn('ws error',e);ws.close()});
+}
 
 
 function verifySignature(signature, timestamp, body) {
@@ -235,8 +238,8 @@ function verifySignature(signature, timestamp, body) {
   return nacl.sign.detached.verify(Buffer.from(data), signedData, key);
 }
 
-async function reactToMsg(channelId,messageId,emoji){
-  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
+async function reactToMsg(channel,messageId,emoji){
+  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channel}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,{
     method:'PUT',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
@@ -249,8 +252,9 @@ async function reactToMsg(channelId,messageId,emoji){
   }
 }
 
-async function sendMsg(text,channelId){//1333407548933410909
-  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages`,{
+async function sendMsg(text,channel){//1333407548933410909
+  console.log(channel)
+  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channel}/messages`,{
     method:'POST',
     headers:{
       'Authorization':`Bot ${process.env.DISCORD_BOT_TOKEN}`,
