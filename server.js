@@ -149,9 +149,10 @@ registerCommands([
 ])
 
 
-wsConnect()
-async function wsConnect(){
-  sendMsg('kana starting','1333407548933410909')
+wsConnect('kana starting')
+let heart
+async function wsConnect(startmsg){
+  sendMsg(startmsg,'1333407548933410909')
   const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
   ws.onopen=e=>{
     console.log('Connected to Discord Gateway');
@@ -176,7 +177,8 @@ async function wsConnect(){
 
     if(req.op===10){
       console.log(`hello msg set heartbeat to ${req.d.heartbeat_interval/1000}s`)
-      setInterval(() => {
+      clearInterval(heart)
+      heart=setInterval(() => {
         ws.send(JSON.stringify({ op: 1, d: null })); // Heartbeat (op 1)
         console.log('heartbeat sent');
       },req.d.heartbeat_interval);
@@ -225,8 +227,8 @@ async function wsConnect(){
 
     console.log('unknown ws:',req.t)
   });
-  ws.onclose=async(e)=>{console.warn('ws close',e);;wsConnect()};
-  ws.on('error',async(e)=>{console.warn('ws error',e);ws.close()});
+  ws.onclose=async(e)=>{console.warn('ws close',e);wsConnect(`kana restarting from ws error code:${e.code} reason:"${e.reason}"`)};
+  ws.on('error',async(e)=>{console.warn('ws error',e,e.message);ws.close()});
 }
 
 
