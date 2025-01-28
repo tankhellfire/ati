@@ -56,7 +56,10 @@ const app=express()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-setInterval(async()=>console.log('got spot:',(await (await fetch('https://glitch.com/edit/#!/spot-brook-hall.glitch.me')).text())[0]),20000)
+setInterval(async()=>console.log('\nspot','up'==await (await fetch('https://spot-brook-hall.glitch.me/wake')).text()),20000)
+app.get("/wake",(req,res)=>{
+  res.setHeader("Access-Control-Allow-Origin", "*").send('up')
+}); 
 
 app.get("/restart",async(req,res)=>{
   await updateSave()
@@ -68,7 +71,7 @@ app.get("/save",async(req,res)=>{
 })
 
 app.post("/interactions",(req,res)=>{
-  console.log('/interactions',req.body.type)
+  console.log('\n/interactions',req.body.type)
   // console.log('path:',req.path);
   // console.log('Headers:',Object.keys(req.headers));
   // console.log('Body:',req.body);
@@ -91,7 +94,7 @@ app.post("/interactions",(req,res)=>{
   console.log('unknown post:',req.body.type)
 });  
 
-const server=app.listen(3000,e=>console.log(`up`));
+const server=app.listen(3000,e=>console.log('\nup\n'));
 
 
 function handelCommand(req,res,name){
@@ -167,7 +170,7 @@ ws.onopen=e=>{
 
 ws.on('message',async msg=>{
   let req=JSON.parse(msg)
-  console.log('/ws',req.t,req.op)
+  console.log('\n/ws',req.t,req.op)
   
   if(req.op===10){
     console.log(`hello msg set heartbeat to ${req.d.heartbeat_interval/1000}s`)
