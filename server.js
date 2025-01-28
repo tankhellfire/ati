@@ -225,7 +225,7 @@ async function wsConnect(){
 
     console.log('unknown ws:',req.t)
   });
-  ws.onclose=async(e)=>{console.warn('ws close',e);wsConnect()};
+  ws.onclose=async(e)=>{console.warn('ws close',e);;wsConnect()};
   ws.on('error',async(e)=>{console.warn('ws error',e);ws.close()});
 }
 
@@ -253,7 +253,6 @@ async function reactToMsg(channel,messageId,emoji){
 }
 
 async function sendMsg(text,channel){//1333407548933410909
-  console.log(channel)
   const response=await fetch(`https://discord.com/api/v${disV}/channels/${channel}/messages`,{
     method:'POST',
     headers:{
