@@ -225,7 +225,7 @@ async function wsConnect(){
 
     console.log('unknown ws:',req.t)
   });
-  ws.on('close',async(e)=>{console.warn('ws close',e);wsConnect()});
+  ws.onclose=async(e)=>{console.warn('ws close',e);wsConnect()};
   ws.on('error',async(e)=>{console.warn('ws error',e);ws.close()});
 }
 
