@@ -152,7 +152,7 @@ registerCommands([
 wsConnect('kana starting')
 let heart
 async function wsConnect(startmsg){
-  sendMsg(startmsg,'1333407548933410909')
+  if(startmsg)sendMsg(startmsg,'1333407548933410909')
   const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
   ws.onopen=e=>{
     console.log('Connected to Discord Gateway');
@@ -227,7 +227,7 @@ async function wsConnect(startmsg){
 
     console.log('unknown ws:',req.t)
   });
-  ws.onclose=async(e)=>{console.warn('ws close',e);wsConnect(`kana restarting from ws error code:${e.code} reason:"${e.reason}"`)};
+  ws.onclose=async(e)=>{console.warn('ws close',e);if(![1001,1006].includes(Number(e.code)))wsConnect(`kana restarting from ws error code:${e.code} reason:"${e.reason}"`)};
   ws.on('error',async(e)=>{console.warn('ws error',e,e.message);ws.close()});
 }
 
