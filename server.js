@@ -152,7 +152,7 @@ registerCommands([
 wsConnect('kana starting')
 let heart
 async function wsConnect(startmsg){
-  if(startmsg)sendMsg(startmsg,'1333407548933410909')
+  if(startmsg){sendMsg(startmsg,'1333407548933410909')}
   const ws = new WebSocket(`wss://gateway.discord.gg/?v=${disV}&encoding=json`);
   ws.onopen=e=>{
     console.log('Connected to Discord Gateway');
