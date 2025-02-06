@@ -51,7 +51,7 @@ global.fetch = require('node-fetch');
 const nacl=require('tweetnacl')
 
 let lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await(await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text()+';\nreturn exports')({})
-let enc=lib
+let enc=await lib('encode.js')
 
 
 const disV=10
@@ -198,7 +198,7 @@ async function wsConnect(startmsg){
         return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
       }
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
-        return await delMsg(req.d.id,req.d.channel_id)
+        let demsg=new enc.Cipher('hello',enc.alph).setCharset(enc.b95).text
       }
       
 
