@@ -1,3 +1,4 @@
+(async()=>{
 // let m=[]
 // for(let a of $0.children){
 //   for(let b of a.children){
@@ -48,6 +49,9 @@ const WebSocket=require('ws');
 global.fetch = require('node-fetch');
 
 const nacl=require('tweetnacl')
+
+let lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await(await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text()+';\nreturn exports')({})
+let enc=lib
 
 
 const disV=10
@@ -187,30 +191,16 @@ async function wsConnect(startmsg){
 
     if(req.t==='MESSAGE_CREATE'){
 
+      
       if(req.d.author.id=='982875001550168064'){
-        await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-            'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
-            'Content-Type':'application/json'
-          },
-        });
+        await delMsg(req.d.id,req.d.channel_id)
         await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
         return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
       }
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
-        await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-            'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
-            'Content-Type':'application/json'
-          },
-        });
-        await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
-        return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
+        return await delMsg(req.d.id,req.d.channel_id)
       }
+      
 
       if(save[req.d.guild_id]?.channel!=req.d.channel_id)return;
       if(req.d.author.id==process.env.id)return;
@@ -282,7 +272,19 @@ async function sendMsg(text,channel){//1333407548933410909
     console.error('sendmsg',response)
   }
 }
-
+async function delMsg(msgId,channelId){
+  const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${msgId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
+      'Content-Type':'application/json'
+    },
+  });
+  if(!response.ok){
+    console.error('delmsg',response)
+  }
+}
 async function registerCommands(commands) {
 
   const endpoint = `https://discord.com/api/v${disV}/applications/${process.env.id}/commands`;
@@ -307,3 +309,4 @@ async function registerCommands(commands) {
 function sleep(ms){
   return new Promise(e=>setTimeout(e,ms))
 }
+})()
