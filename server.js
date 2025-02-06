@@ -198,7 +198,8 @@ async function wsConnect(startmsg){
         return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
       }
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
-        let demsg=new enc.Cipher('hello',enc.alph).setCharset(enc.b95).text
+        let demsg=new enc.Cipher(req.d.content.substr(0,req.d.content.length-1),enc.alph).setCharset(enc.b95).text
+        console.log(demsg)
       }
       
 
