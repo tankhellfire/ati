@@ -196,6 +196,19 @@ async function wsConnect(startmsg){
             'Content-Type':'application/json'
           },
         });
+        await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
+        return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
+      }
+      if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
+        await fetch(`https://discord.com/api/v${disV}/channels/${req.d.channel_id}/messages/${req.d.id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+            'X-Audit-Log-Reason': 'can I put emojis hear? <hanmaru:1332926614832545793>',
+            'Content-Type':'application/json'
+          },
+        });
+        await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
         return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
       }
 
