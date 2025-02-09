@@ -50,8 +50,8 @@ global.fetch = require('node-fetch');
 
 const nacl=require('tweetnacl')
 
-let lib=await Object.getPrototypeOf(async()=>{}).constructor('exports',await(await fetch('https://tankhellfire.glitch.me/lib/lib.js')).text()+';\nreturn exports')({})
-let enc=await lib('encode.js')
+// let lib=require(path.join(__dirname, 'lib/lib.js'))
+let enc=require(path.join(__dirname, 'lib/encode.js'))
 
 
 const disV=10
