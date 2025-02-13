@@ -240,7 +240,7 @@ console.log('`'+new enc.Cipher(
       return updateSave()
     }
 
-    console.log('unknown ws:',req.t)
+    console.log('unknown ws:',req)
   });
   ws.onclose=async(e)=>{console.warn('ws close',e);if(![1001,1006].includes(Number(e.code))){wsConnect(`kana reconnecting from ws error code:${e.code} reason:"${e.reason}"`)}else{wsConnect()}};
   ws.on('error',async(e)=>{console.warn('ws error',e,e.message);ws.close()});
@@ -318,6 +318,24 @@ async function sendDM(text,userId) {
   if (!response.ok) {
     console.error('sendDM', await response.json());
   }
+}
+  
+async function getMessageReactions(channelId, messageId) {
+  const response = await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${messageId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    console.error('Error fetching message:', await response.json());
+    return;
+  }
+
+  const messageData = await response.json();
+  console.log('Reactions:', messageData.reactions);
 }
 
   
