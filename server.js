@@ -284,6 +284,43 @@ async function sendMsg(text,channel){//1333407548933410909
     console.error('sendmsg',response)
   }
 }
+
+async function sendDM(text,userId) {
+  // Create DM channel
+  const dmResponse = await fetch(`https://discord.com/api/v${disV}/users/@me/channels`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ recipient_id: userId })
+  });
+
+  if (!dmResponse.ok) {
+    console.error('createDM', await dmResponse.json());
+    return;
+  }
+
+  const dmChannel = await dmResponse.json();
+  console.log(dmChannel)
+  const channelId = dmChannel.id; // DM channel ID
+
+  // Send message to the DM channel
+  const response = await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ content: text })
+  });
+
+  if (!response.ok) {
+    console.error('sendDM', await response.json());
+  }
+}
+
+  
 async function delMsg(msgId,channelId){
   const response=await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${msgId}`, {
     method: 'DELETE',
