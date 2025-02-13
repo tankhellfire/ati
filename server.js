@@ -318,6 +318,25 @@ async function sendDM(text,userId) {
     console.error('sendDM', await response.json());
   }
 }
+  
+async function getMessageReactions(channelId, messageId) {
+const response = await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${messageId}`, {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+    'Content-Type': 'application/json'
+  }
+});
+
+if (!response.ok) {
+  console.error('Error fetching message:', await response.json());
+  return;
+}
+
+const messageData = await response.json();
+console.log('Reactions:', messageData.reactions);
+}
+
 
   
 async function delMsg(msgId,channelId){
