@@ -302,7 +302,6 @@ async function sendDM(text,userId) {
   }
 
   const dmChannel = await dmResponse.json();
-  console.log(dmChannel)
   const channelId = dmChannel.id; // DM channel ID
 
   // Send message to the DM channel
@@ -318,24 +317,6 @@ async function sendDM(text,userId) {
   if (!response.ok) {
     console.error('sendDM', await response.json());
   }
-}
-  
-async function getMessageReactions(channelId, messageId) {
-  const response = await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages/${messageId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    console.error('Error fetching message:', await response.json());
-    return;
-  }
-
-  const messageData = await response.json();
-  console.log('Reactions:', messageData.reactions);
 }
 
   
