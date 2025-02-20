@@ -378,5 +378,7 @@ function sleep(ms){
 }
   
   
-
+setInterval(async()=>{
+sendDM('## have you watch more arcane yet will?','944830436767571998')
+},300000)
 })()
