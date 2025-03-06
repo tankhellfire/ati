@@ -178,6 +178,7 @@ registerCommands([
   {
     name:'speech',
     description:'revokes speech',
+    default_member_permissions: 0b1000,
     type:1,
     options:[
       {
