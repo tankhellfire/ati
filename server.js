@@ -133,11 +133,15 @@ function handelCommand(req,res,name){
   if(name==="speech"){
     let target=req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)
     let rights=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
+    
+    let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
+    let guildRightless=guildSave.rightless??(guildSave.rightless=[])
     if(rights){
-      let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
-      
+      guildRightless.filter(e=>e!=target)
     }else{
-      
+      if(guildRightless.includes(target))return;
+      guildRightless.push(target)
+      updateSave()
     }
     return res.json({
       type:4,
