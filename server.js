@@ -132,16 +132,19 @@ function handelCommand(req,res,name){
   }
   if(name==="speech"){
     let target=(req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)).id
-    let rights=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
+    let speech=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
     
     let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
     let guildRightless=guildSave.rightless??(guildSave.rightless=[])
-    if(rights){
-      guildRightless.filter(e=>e!=target)
+    console.log(guildRightless,speech,target)
+    
+    if(speech){
+      guildSave.rightless=guildRightless.filter(e=>e!=target)
     }else{
-      if(guildRightless.includes(target))return;
-      guildRightless.push(target)
-      updateSave()
+      if(!guildRightless.includes(target)){
+        guildRightless.push(target)
+        updateSave()
+      }
     }
     return res.json({
       type:4,
@@ -383,7 +386,8 @@ async function delMsg(msgId,channelId){
 }
   
 async function blockmsg(req){
-  let guildRightless=save[req.d.channel_id]?.rightless
+  
+  let guildRightless=save[req.d.guild_id]?.rightless
   if(!guildRightless)return 0
   if(guildRightless.includes(req.d.author.id)){
       await delMsg(req.d.id,req.d.channel_id)
