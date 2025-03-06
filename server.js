@@ -191,7 +191,7 @@ async function wsConnect(startmsg){
 
     if(req.t==='MESSAGE_CREATE'){
 
-      
+      if(blockmsg(req))return
       // if(req.d.author.id=='982875001550168064'){
       //   await delMsg(req.d.id,req.d.channel_id)
       //   await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
@@ -345,6 +345,10 @@ async function delMsg(msgId,channelId){
     console.error('delmsg',response)
   }
 }
+  
+async function blockmsg(){}
+  
+  
 async function registerCommands(commands) {
 
   const endpoint = `https://discord.com/api/v${disV}/applications/${process.env.id}/commands`;
