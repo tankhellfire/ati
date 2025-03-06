@@ -231,12 +231,8 @@ async function wsConnect(startmsg){
 
     if(req.t==='MESSAGE_CREATE'){
 
-      //if(blockmsg(req)){return}
-      // if(req.d.author.id=='982875001550168064'){
-      //   await delMsg(req.d.id,req.d.channel_id)
-      //   await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1184757498067042366')
-      //   return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}> on order "of it's Tyler"`,'1337034823000133652')
-      // }
+      if(await blockmsg(req)){return}
+
       
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(enc.b95+'\n')).text
@@ -386,7 +382,17 @@ async function delMsg(msgId,channelId){
   }
 }
   
-async function blockmsg(req){return false}
+async function blockmsg(req){
+  let guildRightless=save[req.d.channel_id]?.rightless
+  if(!guildRightless)return 0
+  if(guildRightless.includes(req.d.author.id)){
+      await delMsg(req.d.id,req.d.channel_id)
+      await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}>`,'1184757498067042366')
+      return await sendMsg(`delete "${req.d.content}" from <@${req.d.author.id}> in <#${req.d.channel_id}>`,'1337034823000133652')
+    return 1
+  }
+  return 0
+}
   
   
 async function registerCommands(commands) {
