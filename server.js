@@ -130,6 +130,14 @@ function handelCommand(req,res,name){
       },
     });
   }
+  if(name==="speech"){
+    return res.json({
+      type:4,
+      data:{
+        content:`channel:<#${save[req.body.guild_id]?.channel}>`,
+      }
+    });
+  }
   return console.log('unknown command:',name)
 }
 
