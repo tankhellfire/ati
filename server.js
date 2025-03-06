@@ -149,6 +149,25 @@ registerCommands([
     name: 'getchannel',
     description: 'return the 唱える channel',
     type: 1,
+  },
+  {
+    name:'speech',
+    description:'revokes speech',
+    type:1,
+    options:[
+      {
+        name:"user",
+        description:"who to target (default is you :)",
+        type:6, 
+        required:0
+      },
+      {
+        name:"on",
+        description:"can they speek (default:true)",
+        type:5, 
+        required:0
+      }
+    ]
   }
 ])
 
