@@ -33,6 +33,7 @@ try{
   console.error(err)
   console.log(res)
 }
+// delete save['1142415717405302814'].rightless
 
 function updateSave(){
   return new Promise(res=>{
@@ -131,7 +132,7 @@ function handelCommand(req,res,name){
     });
   }
   if(name==="speech"){
-    let target=(req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)).id
+    let target=(req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user).id)
     let speech=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
     
     let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
