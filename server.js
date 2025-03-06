@@ -104,9 +104,9 @@ const server=app.listen(3000,e=>console.log('\nup\n'));
 function handelCommand(req,res,name){
   if(name==="ping"){
     return res.json({
-      type: 4,
-      data: {
-        content: 'Pong!... hopefuly',
+      type:4,
+      data:{
+        content:'Pong!... hopefuly',
       },
     });
   }
@@ -123,18 +123,27 @@ function handelCommand(req,res,name){
   }
   if(name==="getchannel"){
     return res.json({
-      type: 4,
-      data: {
-        content: `channel:<#${save[req.body.guild_id]?.channel}>`,
-        flags: 0b1000000
+      type:4,
+      data:{
+        content:`channel:<#${save[req.body.guild_id]?.channel}>`,
+        flags:0b1000000
       },
     });
   }
   if(name==="speech"){
+    let target=req.body.data.options?.find(opt=>opt.name=="user")?.value??(req.body.user??req.body.member.user)
+    let rights=req.body.data.options?.find(opt=>opt.name=="on")?.value??0
+    if(rights){
+      let guildSave=save[req.body.guild_id]??(save[req.body.guild_id]={})
+      
+    }else{
+      
+    }
     return res.json({
       type:4,
       data:{
         content:`channel:<#${save[req.body.guild_id]?.channel}>`,
+        flags:0b1000000
       }
     });
   }
