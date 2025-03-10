@@ -189,7 +189,7 @@ registerCommands([
       },
       {
         name:"on",
-        description:"can they speek (default:true)",
+        description:"can they speek (default:F)",
         type:5, 
         required:0
       }
