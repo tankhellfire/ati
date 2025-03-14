@@ -426,8 +426,19 @@ function sleep(ms){
   return new Promise(e=>setTimeout(e,ms))
 }
   
+async function getLatestMessages(channelId,limit=10){
+  return await (await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages?limit=${limit}`,{
+    method:"GET",
+    headers:{
+      "Authorization":`Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      "Content-Type":"application/json"
+    }
+  })).json()
+}
+  
   
 setInterval(async()=>{
-sendDM('# have you watch arcane again yet will?!?!','944830436767571998')
+let t=new Date(Date.now()+8*60*60*1000).getUTCHours()
+if(6<=t&&t<21)sendDM('# have you watch arcane again yet will?!?!','944830436767571998')
 },300000)
 })()
