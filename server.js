@@ -442,3 +442,67 @@ let t=new Date(Date.now()+8*60*60*1000).getUTCHours()
 if(6<=t&&t<21)sendDM('# have you watch arcane again yet will?!?!','944830436767571998')
 },300000)
 })()
+
+
+
+
+
+
+
+
+
+
+
+let rate=2000
+let startTime=performance.now()
+let money=0
+getNum=text=>{
+    let emoji=0
+    let out=''
+    for(let a of text){
+        if(a==':'){emoji=!emoji;continue}
+        if(!emoji)out+=a
+    }
+    return out.replace(/[^0-9-]+/g,"")>>0
+}
+sleep=e=>new Promise(res=>setTimeout(res,e));
+(async()=>{
+    while(1){
+        let sid='why'+Math.random()
+
+        let a=sleep(rate)
+        fetch("https://discord.com/api/v9/interactions",{
+          "headers":{
+            process.env.process.env.usridauth,
+            "content-type":"application/json",
+          },
+          body:`{\"type\":2,\"application_id\":\"563434444321587202\",\"guild_id\":\"1142415717405302814\",\"channel_id\":\"1190276778279837857\",\"session_id\":\"${sid}\",\"data\":{\"version\":\"1300521294890012680\",\"id\":\"981143682902278190\",\"name\":\"fish\",\"type\":1}}`,
+          method:"POST"
+        })
+        await a
+        
+        a=sleep(rate)
+        let balence=0
+        fetch("https://discord.com/api/v9/channels/1190276778279837857/messages?limit=1",{
+          "headers": {
+            process.env.process.env.usridauth,
+            "content-type":"application/json",
+          },
+          method:"GET"
+        }).then(e=>e.json()).then(e=>getNum(e[0].content)).then(e=>balence=e)
+        await a
+        
+        if(0<balence){
+            a=sleep(rate)
+            fetch("https://discord.com/api/v9/interactions",{
+                "headers":{
+                  process.env.process.env.usridauth,
+                  "content-type":"application/json",
+                },
+                body:`{\"type\":2,\"application_id\":\"563434444321587202\",\"guild_id\":\"1142415717405302814\",\"channel_id\":\"1190276778279837857\",\"session_id\":\"${sid}\",\"data\":{\"version\":\"1300521294806384659\",\"id\":\"981143682709352455\",\"name\":\"give\",\"type\":1,\"options\":[{\"type\":6,\"name\":\"user\",\"value\":\"${process.env.usrid}\"},{\"type\":4,\"name\":\"amount\",\"value\":${balence}}]}}`,
+                method:"POST"
+            }).then(e=>money+=balence)
+            await a
+        }
+    }
+})()
