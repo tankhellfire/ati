@@ -437,8 +437,8 @@ async function getLatestMessages(channelId,limit=10){
 }
   
   
-setInterval(async()=>{
-let t=new Date(Date.now()+8*60*60*1000).getUTCHours()
-/*if(6<=t&&t<21)*/sendMsg('<@982875001550168064> play tft, you lair','1184757498067042366')
-},300000)
+// setInterval(async()=>{
+// let t=new Date(Date.now()+8*60*60*1000).getUTCHours()
+// /*if(6<=t&&t<21)*/sendMsg('<@982875001550168064> play tft, you lair','1184757498067042366')
+// },300000)
 })()
