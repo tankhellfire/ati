@@ -99,7 +99,7 @@ app.post("/interactions",(req,res)=>{
   console.log('unknown post:',req.body.type)
 });  
 
-const server=app.listen(3000,e=>console.log('\nup\n'));
+const server=app.listen(process.env.PORT??3000,e=>console.log('\nup\n'));
 
 
 function handelCommand(req,res,name){
