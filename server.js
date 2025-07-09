@@ -63,6 +63,7 @@ app.use(express.urlencoded({extended:true}));
 
 // setInterval(async()=>console.log('\nkana','up'==await (await fetch('https://magical-familiar-grapples.glitch.me/wake')).text()),60000)
 app.get("/wake",async(req,res)=>{
+  console.log('up')
   res.setHeader("Access-Control-Allow-Origin", "*").send('up')
 });
 
@@ -76,7 +77,7 @@ app.get("/restart",async(req,res)=>{
 // })
 
 app.post("/interactions",(req,res)=>{
-  console.log('\n/interactions',req.body.type)
+  // console.log('\n/interactions',req.body.type)
   // console.log('path:',req.path);
   // console.log('Headers:',Object.keys(req.headers));
   // console.log('Body:',req.body);
